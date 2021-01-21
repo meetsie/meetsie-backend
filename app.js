@@ -1,9 +1,9 @@
 const express = require('express')
-// require('.db/mongoose')
-const scheduleRouter = require('./routers/meeting')
+require('./db/mongoose')
+const meetingRouter = require('./routers/meeting')
 
 const app = express()
 app.use(express.json())
-app.use(scheduleRouter)
+app.use(meetingRouter)
 
 module.exports = app
