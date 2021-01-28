@@ -21,7 +21,7 @@ router.get('/get_meeting/:id', async (req, res) => {
     const _id = req.params.id
 
     try {
-        const meeting = await meeting.findOne({_id})
+        const meeting = await Meeting.findOne({_id})
         if (!meeting) {
             return res.status(404).send();
         }
