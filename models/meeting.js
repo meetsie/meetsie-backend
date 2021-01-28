@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
 
 const meetingSchema = mongoose.Schema(
     {
-        name: {
-            type: String,
+        names: {
+            type: Array,
             trim: true,
             required:true
         },

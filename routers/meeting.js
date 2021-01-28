@@ -19,7 +19,6 @@ router.post('/post_meeting', async (req, res) => {
 
 router.get('/get_meeting/:id', async (req, res) => {
     const _id = req.params.id
-
     try {
         const meeting = await Meeting.findOne({_id})
         if (!meeting) {
@@ -29,6 +28,32 @@ router.get('/get_meeting/:id', async (req, res) => {
     }
     catch (e) {
         res.status(500).send(e)
+    }
+
+})
+
+router.patch('/edit_meeting/:id', async (req, res) => {
+    const _id = req.params.id
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ["names","time"]
+    const isUpdateAllowed = updates.every((update) => allowedUpdates.includes(update));
+
+    if (!isUpdateAllowed) {
+        return res.status(400).send({ error: "Invalid updates!" })
+    }
+
+    try {
+        const meeting = await Meeting.findOne({_id})
+        updates.forEach((update) => { meeting[update] = req.body[update] })
+        await meeting.save()
+
+        if (!meeting) {
+            return res.status(404).send();
+        }
+        res.send(meeting)
+    }
+    catch (e) {
+        res.status(400).send(e)
     }
 
 })
